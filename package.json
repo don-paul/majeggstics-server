@@ -1,0 +1,16 @@
+{
+    "name": "majeggstics-server",
+    "version": "1.0.0",
+    "description": "Node.js server for the majeggstics.com site and related tools",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "npx nodemon server.js"
+    },
+    "author": "Don Paul",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.1",
+        "express": "^4.18.2"
+    }
+}
