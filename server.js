@@ -12,17 +12,18 @@ const BUILDER_IO_API_KEY = process.env.BUILDER_IO_API_KEY;
 app.use(cors()); // Enable All CORS Requests
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
+app.get('/health', (req, res) => {
+    res.send('Hello, Majeggstics!');
 });
 
 app.get('/archive', async (req, res) => {
-    console.log('archive endpoint called', req.query.EID);
+    // console.log('archive endpoint called', req.query.EID);
     try {
         const response = await fetch(`${API_URL}/archive?EID=${req.query.EID}`);
         if (!response.ok) {
             console.log('Response status:', response.status);
             console.log('Response text:', await response.text());
+            res.send('Error:', response.status);
             return;
         }
         const data = await response.json();
@@ -34,7 +35,7 @@ app.get('/archive', async (req, res) => {
 
 app.get('/coopData', async (req, res) => {
     try {
-        console.log('coopData contract endpoint called', req.query.EID);
+        // console.log('coopData contract endpoint called', req.query.EID);
         const EID = req.query.EID || BACKUP_EID;
 
         // kevId is contract id
@@ -43,6 +44,7 @@ app.get('/coopData', async (req, res) => {
         if (!response.ok) {
             console.log('Response status:', response.status);
             console.log('Response text:', await response.text());
+            res.send('Error:', response.status);
             return;
         }
         const data = await response.json();
@@ -52,7 +54,7 @@ app.get('/coopData', async (req, res) => {
             isSelectedIGN: item.userId === req.query.EID,
             equippedArtifactsList: item.farmInfo.equippedArtifactsList,
         }));
-        console.log('coopData:', newData);
+        // console.log('coopData:', newData);
         // console.log('newData:', newData);
         res.send(newData);
     } catch (error) {
@@ -61,13 +63,14 @@ app.get('/coopData', async (req, res) => {
 });
 
 app.get('/boosts', async (req, res) => {
-    console.log('boosts endpoint called', BUILDER_IO_API_KEY);
+    // console.log('boosts endpoint called', BUILDER_IO_API_KEY);
     try {
         const response = await fetch(`https://cdn.builder.io/api/v3/content/boosts?apiKey=${BUILDER_IO_API_KEY}`);
 
         if (!response.ok) {
             console.log('Response status:', response.status);
             console.log('Response text:', await response.text());
+            res.send('Error:', response.status);
             return;
         }
         const data = await response.json();
