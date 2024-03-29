@@ -93,6 +93,26 @@ app.get('/boosts', async (req, res) => {
     }
 });
 
+app.get('/shipsData', async (req, res) => {
+    // console.log('shipsData endpoint called', req.query.EID);
+    try {
+        const response = await fetch(`${API_URL}/backup?EID=${req.query.EID}`);
+        if (!response.ok) {
+            console.log('Response status:', response.status);
+            console.log('Response text:', await response.text());
+            res.send('Error:', response.status);
+            return;
+        }
+        const data = await response.json();
+
+        const returnData = data.artifactsDb.missionInfosList;
+
+        res.send(returnData);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
